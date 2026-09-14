@@ -1,4 +1,5 @@
 import locale
+import os
 import platform
 import pandas as pd
 
@@ -20,8 +21,23 @@ def seek_sheet():
             
             # Verify if the file exists in the current directory
             if not Path(archive).is_file():
-                print(f"File '{archive}' not found. Please try again.")
-                continue
+
+                print(f"File '{archive}' not found in {os.getcwd()}. Please try again or change the default directory.")
+                print("Try again?")
+                option = input("Enter 'y' to try again or 'n' to exit: ").strip().lower()
+
+                while True:
+
+                    if option == 'n' or option == 'no':
+                        print("Exiting the program. Goodbye!")
+                        exit()
+
+                    elif( option == 'y' or option == 'yes'):
+                        break
+                    
+                    else:
+                        print("Invalid option. Please enter 'y' or 'n'.")
+                        continue
             
             # Read the spreadsheet using Pandas
             df_base = pd.read_csv(archive, encoding = "UTF-8", sep = ",")
